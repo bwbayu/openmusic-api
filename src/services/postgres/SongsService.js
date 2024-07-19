@@ -34,10 +34,12 @@ class SongsService {
     return result.rows[0].id;
   }
 
-  async getSongs() {
-    const query = 'SELECT id, title, performer FROM songs';
+  async getSongs(title = '', performer = '') {
+    const query = {
+      text: 'SELECT id, title, performer FROM songs WHERE title ILIKE $1 AND performer ILIKE $2',
+      values: [`%${title}%`, `%${performer}%`],
+    };
     const result = await this._pool.query(query);
-    // return result;
     return result.rows.map(mapDBToModelSongs);
   }
 
@@ -87,6 +89,16 @@ class SongsService {
     if (!result.rows.length) {
       throw new NotFoundError('Lagu gagal dihapus. Id tidak ditemukan');
     }
+  }
+
+  async getSongByAlbumId(id) {
+    const query = {
+      text: 'SELECT id, title, performer FROM songs WHERE album_id = $1',
+      values: [id],
+    };
+    const result = await this._pool.query(query);
+
+    return result.rows.map(mapDBToModelSongs);
   }
 }
 
