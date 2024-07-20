@@ -2,7 +2,7 @@
 submission dicoding
 
 # install package global
-npm install @hapi/hapi dotenv joi nanoid node-pg-migrate pg auto-bind@4
+npm install @hapi/hapi dotenv joi nanoid node-pg-migrate pg auto-bind@4 bcrypt @hapi/jwt
 
 # install package development
 npm install nodemon --save-dev
@@ -16,4 +16,17 @@ npm install nodemon --save-dev
 # membuat file migration untuk tabel database dan menjalankan file migration
 1. npm run migrate create "create table albums"
 2. npm run migrate create "create table songs"
-3. npm run migrate up
+3. npm run migrate create "create table users"
+4. npm run migrate create "create table authentications"
+5. npm run migrate create "create table playlists"
+6. npm run migrate create "create table playlist_songs"
+7. npm run migrate create "create table collaborations"
+8. npm run migrate create "create table playlist_songs_activities"
+- npm run migrate up
+- truncate albums, songs
+
+# generate access token key
+- require('crypto').randomBytes(64).toString('hex');
+
+
+
