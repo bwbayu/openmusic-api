@@ -28,5 +28,10 @@ npm install nodemon --save-dev
 # generate access token key
 - require('crypto').randomBytes(64).toString('hex');
 
-
+# TODO
+- beresin api user dan authentications + testing
+- validator, service, api playlist -> post, get, delete
+- validator, service, api playlist_songs -> post, get, delete
+- validator, service, api playlist song activities
+- validator, service, api collaboration
 
