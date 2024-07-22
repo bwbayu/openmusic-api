@@ -21,9 +21,9 @@ class PlaylistsService {
       throw new NotFoundError('Resource yang Anda minta tidak ditemukan');
     }
 
-    const note = result.rows[0];
+    const playlist = result.rows[0];
 
-    if (note.owner !== owner) {
+    if (playlist.owner !== owner) {
       throw new AuthorizationError('Anda tidak berhak mengakses resource ini');
     }
   }
@@ -49,12 +49,10 @@ class PlaylistsService {
     name, owner,
   }) {
     const id = `playlist-${nanoid(16)}`;
-    const createdAt = new Date().toISOString();
-    const updatedAt = createdAt;
 
     const query = {
-      text: 'INSERT INTO playlists VALUES($1, $2, $3, $4, $5) RETURNING id',
-      values: [id, name, owner, createdAt, updatedAt],
+      text: 'INSERT INTO playlists VALUES($1, $2, $3) RETURNING id',
+      values: [id, name, owner],
     };
 
     const result = await this._pool.query(query);
