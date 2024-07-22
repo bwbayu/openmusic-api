@@ -1,7 +1,7 @@
 const { Pool } = require('pg');
 const { nanoid } = require('nanoid');
-const InvariantError = require('../../exceptions/InvariantError');
 const NotFoundError = require('../../exceptions/NotFoundError');
+const InvariantError = require('../../exceptions/InvariantError');
 
 class PlaylistSongsService {
   constructor() {
@@ -9,19 +9,6 @@ class PlaylistSongsService {
   }
 
   async addPlaylistSongs(playlistId, songId) {
-    // cek song
-    const songQuery = {
-      text: 'SELECT * FROM songs WHERE id = $1',
-      values: [songId],
-    };
-
-    const songResult = await this._pool.query(songQuery);
-
-    if (!songResult.rows.length) {
-      throw new NotFoundError('Lagu tidak ditemukan');
-    }
-
-    // insert data
     const id = `playlist-songs-${nanoid(16)}`;
 
     const playlistQuery = {
@@ -36,8 +23,8 @@ class PlaylistSongsService {
     const playlistQuery = {
       text: `SELECT playlists.id, playlists.name, users.username 
       FROM playlist_songs
-      INNER JOIN playlists ON playlist_id = playlists.id 
-      INNER JOIN users ON playlists.owner = users.id 
+      LEFT JOIN playlists ON playlist_id = playlists.id 
+      LEFT JOIN users ON playlists.owner = users.id 
       WHERE playlist_id = $1`,
       values: [playlistId],
     };
@@ -51,7 +38,7 @@ class PlaylistSongsService {
     const songQuery = {
       text: `SELECT songs.id, songs.title, songs.performer
       FROM playlist_songs
-      INNER JOIN songs ON songs.id = playlist_songs.song_id
+      LEFT JOIN songs ON songs.id = playlist_songs.song_id
       WHERE playlist_id = $1`,
       values: [playlistId],
     };
