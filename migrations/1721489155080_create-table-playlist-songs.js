@@ -14,14 +14,6 @@ exports.up = (pgm) => {
       type: 'VARCHAR(50)',
       notNull: true,
     },
-    created_at: {
-      type: 'TIMESTAMP',
-      default: pgm.func('CURRENT_TIMESTAMP'),
-    },
-    updated_at: {
-      type: 'TIMESTAMP',
-      default: pgm.func('CURRENT_TIMESTAMP'),
-    },
   });
 
   pgm.addConstraint('playlist_songs', 'unique_playlist_id_and_song_id', 'UNIQUE(playlist_id, song_id)');
