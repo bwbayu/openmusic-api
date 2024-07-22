@@ -16,7 +16,7 @@ class PlaylistSongsService {
 
     const songResult = await this._pool.query(songQuery);
 
-    if (!songResult.rows.length) {
+    if (!songResult.rowCount) {
       throw new NotFoundError('Lagu tidak ditemukan');
     }
 
@@ -42,7 +42,7 @@ class PlaylistSongsService {
 
     const playlistResult = await this._pool.query(playlistQuery);
 
-    if (!playlistResult.rows.length) {
+    if (!playlistResult.rowCount) {
       throw new NotFoundError('Playlist tidak ditemukan');
     }
 
@@ -73,7 +73,7 @@ class PlaylistSongsService {
 
     const result = await this._pool.query(query);
 
-    if (!result.rows.length) {
+    if (!result.rowCount) {
       throw new InvariantError('Lagu pada playlist gagal dihapus, lagu dan/atau playlist tidak ditemukan');
     }
   }
