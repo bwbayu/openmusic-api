@@ -37,4 +37,4 @@ class PlaylistSongsActivitiesService {
   }
 }
 
-exports.module = PlaylistSongsActivitiesService;
+module.exports = PlaylistSongsActivitiesService;

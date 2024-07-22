@@ -9,6 +9,17 @@ class PlaylistSongsService {
   }
 
   async addPlaylistSongs(playlistId, songId) {
+    const songQuery = {
+      text: 'SELECT * FROM songs WHERE id = $1',
+      values: [songId],
+    };
+
+    const songResult = await this._pool.query(songQuery);
+
+    if (!songResult.rows.length) {
+      throw new NotFoundError('Lagu tidak ditemukan');
+    }
+
     const id = `playlist-songs-${nanoid(16)}`;
 
     const playlistQuery = {
@@ -62,10 +73,10 @@ class PlaylistSongsService {
 
     const result = await this._pool.query(query);
 
-    if (!result.rowCount) {
+    if (!result.rows.length) {
       throw new InvariantError('Lagu pada playlist gagal dihapus, lagu dan/atau playlist tidak ditemukan');
     }
   }
 }
 
-exports.module = PlaylistSongsService;
+module.exports = PlaylistSongsService;

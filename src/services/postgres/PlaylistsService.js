@@ -5,13 +5,14 @@ const NotFoundError = require('../../exceptions/NotFoundError');
 const AuthorizationError = require('../../exceptions/AuthorizationError');
 
 class PlaylistsService {
-  constructor() {
+  constructor(collaborationsService) {
     this._pool = new Pool();
+    this._collaborationsService = collaborationsService;
   }
 
   async verifyPlaylistOwner(id, owner) {
     const query = {
-      text: 'SELECT * FROM playlists WHERE id = $1',
+      text: 'SELECT owner FROM playlists WHERE id = $1',
       values: [id],
     };
 
@@ -21,9 +22,7 @@ class PlaylistsService {
       throw new NotFoundError('Resource yang Anda minta tidak ditemukan');
     }
 
-    const playlist = result.rows[0];
-
-    if (playlist.owner !== owner) {
+    if (result.rows[0].owner !== owner) {
       throw new AuthorizationError('Anda tidak berhak mengakses resource ini');
     }
   }
@@ -38,7 +37,7 @@ class PlaylistsService {
       }
       try {
         // cek collaborator
-        await this._collaborationService.verifyCollaborator(playlistId, userId);
+        await this._collaborationsService.verifyCollaborator(playlistId, userId);
       } catch {
         throw error;
       }
@@ -70,7 +69,7 @@ class PlaylistsService {
       LEFT JOIN collaborations ON collaborations.playlist_id = playlists.id
       LEFT JOIN users ON users.id = playlists.owner
       WHERE playlists.owner = $1 OR collaborations.user_id = $1
-      GROUP BY playlists.id`,
+      GROUP BY (playlists.id, users.username)`,
       values: [owner],
     };
     const result = await this._pool.query(query);
