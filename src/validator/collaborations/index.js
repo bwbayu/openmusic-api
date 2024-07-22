@@ -2,7 +2,7 @@ const InvariantError = require('../../exceptions/InvariantError');
 const { CollaborationsPayloadSchema } = require('./schema');
 
 const CollaborationsValidator = {
-  validateCollaborationsPayload: (payload) => {
+  validateCollaborationPayload: (payload) => {
     const validationResult = CollaborationsPayloadSchema.validate(payload);
 
     if (validationResult.error) {
