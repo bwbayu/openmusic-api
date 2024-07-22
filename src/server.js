@@ -113,20 +113,20 @@ const init = async () => {
       },
     },
     {
+      plugin: collaborations,
+      options: {
+        collaborationsService,
+        playlistsService,
+        validator: CollaborationsValidator,
+      },
+    },
+    {
       plugin: playlists,
       options: {
         playlistsService,
         playlistSongsService,
         playlistSongsActivitiesService,
         validator: playlistsValidator,
-      },
-    },
-    {
-      plugin: collaborations,
-      options: {
-        collaborationsService,
-        playlistsService,
-        validator: CollaborationsValidator,
       },
     },
   ]);

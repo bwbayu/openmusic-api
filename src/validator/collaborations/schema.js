@@ -1,8 +1,8 @@
 const Joi = require('joi');
 
 const CollaborationsPayloadSchema = Joi.object({
-  playlistId: Joi.string().max(50).required(),
-  userId: Joi.string().max(50).required(),
+  playlistId: Joi.string().required(),
+  userId: Joi.string().required(),
 });
 
-module.exports = CollaborationsPayloadSchema;
+module.exports = { CollaborationsPayloadSchema };
