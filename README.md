@@ -2,7 +2,7 @@
 submission dicoding
 
 # install package global
-npm install @hapi/hapi dotenv joi nanoid node-pg-migrate pg auto-bind@4 bcrypt @hapi/jwt
+npm install @hapi/hapi dotenv joi nanoid node-pg-migrate pg auto-bind@4 bcrypt @hapi/jwt amqplib
 
 # install package development
 npm install nodemon --save-dev
@@ -28,10 +28,11 @@ npm install nodemon --save-dev
 # generate access token key
 - require('crypto').randomBytes(64).toString('hex');
 
-# TODO
-- beresin api user dan authentications + testing
-- validator, service, api playlist -> post, get, delete
-- validator, service, api playlist_songs -> post, get, delete
-- validator, service, api playlist song activities
-- validator, service, api collaboration
-
+# new
+- buka RabbitMQ Command
+- rabbitmq-plugins.bat enable rabbitmq_management
+- http://localhost:15672 -> guest
+- npm install amqplib
+- env = RABBITMQ_SERVER=amqp://localhost
+- folder rabbitmq di service
+- folder exports di validator
