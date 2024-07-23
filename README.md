@@ -22,6 +22,7 @@ npm install nodemon --save-dev
 6. npm run migrate create "create table playlist_songs"
 7. npm run migrate create "create table collaborations"
 8. npm run migrate create "create table playlist_songs_activities"
+9. npm run migrate create "create table user_album_likes"
 - npm run migrate up
 - truncate albums, songs
 
