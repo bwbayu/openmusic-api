@@ -21,7 +21,6 @@ class ExportsHandler {
       playlistId,
       targetEmail: request.payload.targetEmail,
     };
-    console.log(message);
     await this._producersService.sendMessage('export:playlists', JSON.stringify(message));
 
     const response = h.response({
