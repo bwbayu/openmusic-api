@@ -3,10 +3,12 @@ const { nanoid } = require('nanoid');
 const InvariantError = require('../../exceptions/InvariantError');
 const NotFoundError = require('../../exceptions/NotFoundError');
 const { mapDBToModelAlbums } = require('../../utils/albums');
+const ClientError = require('../../exceptions/ClientError');
 
 class AlbumsService {
-  constructor() {
+  constructor(cacheService) {
     this._pool = new Pool();
+    this._cacheService = cacheService;
   }
 
   async addAlbum({ name, year }) {
@@ -91,6 +93,60 @@ class AlbumsService {
     if (!result.rowCount) {
       throw new NotFoundError('Gagal memperbarui cover album. Id tidak ditemukan');
     }
+  }
+
+  async addLikeAlbums(albumId, userId) {
+    const queryCheck = {
+      text: 'SELECT id FROM user_album_likes WHERE user_id = $1 AND album_id = $2',
+      values: [userId, albumId],
+    };
+
+    const resultCheck = await this._pool.query(queryCheck);
+
+    if (resultCheck.rowCount) {
+      throw new ClientError('Album sudah disukai');
+    }
+
+    const id = `like-${nanoid(16)}`;
+    const queryAdd = {
+      text: 'INSERT INTO user_album_likes VALUES($1, $2, $3) RETURNING id',
+      values: [id, userId, albumId],
+    };
+
+    await this._pool.query(queryAdd);
+    await this._cacheService.delete(`user_album_likes:${albumId}`);
+  }
+
+  async getLikeAlbums(albumId) {
+    try {
+      const likes = parseInt(await this._cacheService.get(`user_album_likes:${albumId}`), 10);
+      return {
+        likes,
+        source: 'cache',
+      };
+    } catch (error) {
+      const query = {
+        text: 'SELECT * FROM user_album_likes WHERE album_id = $1',
+        values: [albumId],
+      };
+      const result = await this._pool.query(query);
+      const likes = result.rowCount;
+      await this._cacheService.set(`user_album_likes:${albumId}`, likes);
+      return {
+        likes,
+        source: 'server',
+      };
+    }
+  }
+
+  async deleteAlbumLike(albumId, userId) {
+    const query = {
+      text: 'DELETE FROM user_album_likes WHERE album_id = $1 AND user_id = $2 RETURNING id',
+      values: [albumId, userId],
+    };
+
+    await this._pool.query(query);
+    await this._cacheService.delete(`user_album_likes:${albumId}`);
   }
 }
 

@@ -29,3 +29,7 @@ npm install nodemon --save-dev
 
 # generate access token key
 - require('crypto').randomBytes(64).toString('hex');
+
+# Run 3 party service
+- Rabbitmq - start, http://localhost:15672/ -> guest
+- redis - powershell, memurai-cli
