@@ -4,6 +4,7 @@ const Hapi = require('@hapi/hapi');
 const Inert = require('@hapi/inert');
 const Jwt = require('@hapi/jwt');
 const path = require('path');
+const config = require('./utils/config/config');
 const ClientError = require('./exceptions/ClientError');
 
 // albums
@@ -64,8 +65,8 @@ const init = async () => {
   const storageService = new StorageService(path.resolve(__dirname, 'api/albums/file/images'));
 
   const server = Hapi.server({
-    port: process.env.PORT,
-    host: process.env.HOST,
+    port: config.app.port,
+    host: config.app.host,
     routes: {
       cors: {
         origin: ['*'],
