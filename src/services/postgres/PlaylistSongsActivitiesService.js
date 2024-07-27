@@ -24,7 +24,8 @@ class PlaylistSongsActivitiesService {
       FROM playlist_songs_activities
       LEFT JOIN users ON users.id = playlist_songs_activities.user_id
       LEFT JOIN songs ON songs.id = playlist_songs_activities.song_id
-      WHERE playlist_id = $1`,
+      WHERE playlist_id = $1
+      ORDER BY playlist_songs_activities.time ASC`,
       values: [playlistId],
     };
 

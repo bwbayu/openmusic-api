@@ -39,7 +39,7 @@ class SongsService {
       values: [`%${title}%`, `%${performer}%`],
     };
     const result = await this._pool.query(query);
-    return result.rows.map(mapDBToModelSongs);
+    return result.rows;
   }
 
   async getSongById(id) {

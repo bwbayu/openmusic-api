@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 const autoBind = require('auto-bind');
 
 class AlbumsHandler {

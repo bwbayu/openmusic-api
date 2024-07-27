@@ -25,7 +25,7 @@ npm install nodemon --save-dev
 9. npm run migrate create "create table user_album_likes"
 9. npm run migrate create "add column coverUrl to albums table"
 - npm run migrate up
-- truncate albums, songs
+- truncate albums, songs, users, authentications, playlists, playlist_songs, collaborations, playlist_songs_activities, user_album_likes;
 
 # generate access token key
 - require('crypto').randomBytes(64).toString('hex');
