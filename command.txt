@@ -1,0 +1,9 @@
+# Message Broker RabbitMQ (Producing - Queue - Consuming)
+- open rabbitmq command prompt
+- start service : rabbitmq-service.bat start
+- stop service : rabbitmq-service.bat stop
+- access via http://localhost:15672/
+
+# Redis Memurai-cli
+- open windows powershell
+- memurai-cli

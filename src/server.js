@@ -160,6 +160,14 @@ const init = async () => {
     },
   ]);
 
+  server.route({
+    method: 'GET',
+    path: '/',
+    handler: () => ({
+      value: 'Hello world! Hello Bayu',
+    }),
+  });
+
   server.ext('onPreResponse', (request, h) => {
     const { response } = request;
     if (response instanceof Error) {
