@@ -1,35 +1,80 @@
-# openmusic-api
-submission dicoding
+# Open Music API
 
-# install package global
-npm install @hapi/hapi dotenv joi nanoid node-pg-migrate pg auto-bind@4 bcrypt @hapi/jwt amqplib nodemailer
+## Project Description
+Open Music API is a back-end API for managing music and playlists. Built using **Node.js (Hapi)** and various AWS services, the project offers comprehensive features for user authentication, playlist management, data export, caching, and more.
 
-# install package development
-npm install nodemon --save-dev
+---
 
-# membuat database dengan postgres di cmd
-1. psql --username postgres
-2. CREATE DATABASE openmusic;
-3. GRANT ALL ON DATABASE openmusic TO developer;
-4. ALTER DATABASE openmusic OWNER TO developer;
+## Features
+- **User Authentication**: Secure user registration and login using **JWT**.  
+- **Playlist Management**: CRUD operations for playlists and collaborative playlist management.  
+- **Data Validation**: Input validation using **Joi**.  
+- **Data Export**: Export playlist data via **RabbitMQ** and send it through email with **Nodemailer**.  
+- **File Storage**: Store album cover images.  
+- **Caching**: Optimize performance with **Redis** for server-side caching.  
+- **Likes System**: Implement like functionality for albums.  
+- **Activity Logs**: Monitor playlist activities.  
 
-# membuat file migration untuk tabel database dan menjalankan file migration
-1. npm run migrate create "create table albums"
-2. npm run migrate create "create table songs"
-3. npm run migrate create "create table users"
-4. npm run migrate create "create table authentications"
-5. npm run migrate create "create table playlists"
-6. npm run migrate create "create table playlist_songs"
-7. npm run migrate create "create table collaborations"
-8. npm run migrate create "create table playlist_songs_activities"
-9. npm run migrate create "create table user_album_likes"
-9. npm run migrate create "add column coverUrl to albums table"
-- npm run migrate up
-- truncate albums, songs, users, authentications, playlists, playlist_songs, collaborations, playlist_songs_activities, user_album_likes;
+---
 
-# generate access token key
-- require('crypto').randomBytes(64).toString('hex');
+## Tech Stack
+- **Backend Framework**: Node.js with Hapi.js  
+- **Database**: Postgres  
+- **Message Broker**: RabbitMQ  
+- **Caching**: Redis
+- **Validation**: Joi
 
-# Run 3 party service
-- Rabbitmq - start, http://localhost:15672/ -> guest
-- redis - powershell, memurai-cli
+---
+
+## Setup
+1. Open postgres cli
+    ```bash
+    psql --username postgres
+    ```
+2. Create database
+    ```bash
+    CREATE DATABASE <database_name>;
+    ```
+3. Grant database access to database user
+    ```bash
+    GRANT ALL ON DATABASE <database_name> TO <database_user>;
+    ```
+    ```bash
+    ALTER DATABASE <database_name> OWNER TO <database_user>;
+    ```
+
+## Installation
+1. Clone this repository:
+    ```bash
+    git clone <repository-url>
+    ```
+2. Navigate to the project directory:
+    ```bash
+    cd open-music-api
+    ```
+3. Install dependencies:
+    ```bash
+    npm install
+    ```
+4. Copy .env.example then change to .env and fill it
+5. Run database migrations:
+    ```bash
+    npm run migrate
+    ```
+6. Start the node.js server:
+    ```bash
+    npm run start:dev
+    ```
+7. Check the redis by using Powershell
+    ```bash
+    memurai-cli
+    ```
+7. Open the RabbitMQ by open http://localhost:15672
+
+---
+
+## Other
+Run eslint:
+```bash
+npm run lint
+```
